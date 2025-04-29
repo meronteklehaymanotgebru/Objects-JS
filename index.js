@@ -19,20 +19,22 @@ for(emp of employees){
 }
 console.log(employees);
 
-// function Product(name,price,inStock){
-//     this.name=name;
-//     this.price=price;
-//     this.inStock=inStock;
-// }
-// const products=[
-//     new Product("Lotion",500,true),
-//     new Product("Oil",1000,false),
-//     new Product("Soda",100,true)
-// ];
-// function availableProducts(products){
-//    return products.filter(item=>item.inStock===true).sort(products.price-products.price);
-// }
-// console.log(availableProducts(products));
+function Product(name,price,inStock){
+    this.name=name;
+    this.price=price;
+    this.inStock=inStock;
+}
+const products=[
+    new Product("Lotion",500,true),
+    new Product("Oil",1000,false),
+    new Product("Soda",100,true)
+];
+function availableProducts(products){
+    let filteredProducts = products.filter(p => p.inStock);
+    filteredProducts.sort((a, b) => a.price - b.price);
+    return filteredProducts
+}
+console.log(availableProducts(products));
 
 const grades={
     Meron:[30,90,100],
@@ -44,7 +46,13 @@ function averageScore(grades){
         let scores=grades[stu];
         let total=scores.reduce((a,b)=>a+b,0);
         let average=total/scores.length;
-        let status=average>70? "Pass":"Fail";
+        let status;
+        if(average>70){
+          status="Pass";
+        }
+        else{
+            status="Fail";
+        }
         console.log(`${stu}: Average=${average.toFixed(3)}: ${status}`);
 
     }
@@ -83,13 +91,13 @@ const destinations=[
 ];
 function destinationAffordability(maxDistance,budgetPlan){
     const names = destinations
-    .filter(dest => dest.distance <= maxDistance && dest.budgetRequired <= budgetPlan)
-    .map(dest => dest.name);
+    .filter(dist => dist.distance <= Number(maxDistance.replace(/kms/gi,"")) && dist.budgetRequired <= Number(budgetPlan.replace(/$/gi,"")))
+    .map(dist => dist.name);
   return names.length ? names : "No destinations available under your budget and distance.";
 }
 
 
-console.log(destinationAffordability(2001,8000));
+console.log(destinationAffordability("1001km","8000$"));
 
 
 
